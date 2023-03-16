@@ -35,11 +35,11 @@ sparse matrix where cells are the columns and genes are the rows.
 \description{
 Takes input directory of cellranger (10x) and combines all samples into one sparse matrix.
 This function only works for scRNA-Seq and Cite-Seq data. Each sample sub-directory must contain:
-- barcodes.tsv.gz
-- features.tsv.gz
-- matrix.mtx.gz
+**barcodes.tsv.gz**,
+**features.tsv.gz**,
+**matrix.mtx.gz**
 }
 \examples{
-generateCombinedMatrix(dataset_loc, samples.vec,THREADS = 15, multi.results=T,
+input.matrix <- generateCombinedMatrix(dataset_loc, samples.vec,THREADS = 15, multi.results=T,
 assay = "gex",min.genes.per.cell = 700,max.genes.per.cell = 2500)
 }
