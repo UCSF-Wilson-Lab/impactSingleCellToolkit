@@ -1,9 +1,9 @@
 #' @title Create single cell count matrix
 #' @description Takes input directory of cellranger (10x) and combines all samples into one sparse matrix.
 #' This function only works for scRNA-Seq and Cite-Seq data. Each sample sub-directory must contain:
-#' - barcodes.tsv.gz
-#' - features.tsv.gz
-#' - matrix.mtx.gz
+#' **barcodes.tsv.gz**,
+#' **features.tsv.gz**,
+#' **matrix.mtx.gz**
 #' @param dataset_loc directory path for all cellranger results
 #' @param samples.vec character vector of all sample names
 #' @param THREADS number of threads <default: 4>
@@ -12,7 +12,7 @@
 #' @param min.genes.per.cell minimum number of genes per cell with counts greater than zero <default: 400>
 #' @param max.genes.per.cell maximum number of genes per cell with counts greater than zero <default: NULL>
 #' @return sparse matrix where cells are the columns and genes are the rows.
-#' @examples generateCombinedMatrix(dataset_loc, samples.vec,THREADS = 15, multi.results=T,
+#' @examples input.matrix <- generateCombinedMatrix(dataset_loc, samples.vec,THREADS = 15, multi.results=T,
 #' assay = "gex",min.genes.per.cell = 700,max.genes.per.cell = 2500)
 #' @import Seurat
 #' @import parallel
