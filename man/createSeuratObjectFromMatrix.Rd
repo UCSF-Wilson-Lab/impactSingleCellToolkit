@@ -41,3 +41,8 @@ Takes input single cell sparse matrix of gene counts and creates an analysis obj
 \examples{
 seurat.obj <- createSeuratObjectFromMatrix(sc.data,project.name = "Analysis1",npca = 20, min.genes = 700)
 }
+\references{
+Hao Y, Hao S, et al (2021). 
+Integrated analysis of multimodal single-cell data.
+\emph{Cell}. doi:10.1016/j.cell.2021.04.048
+}

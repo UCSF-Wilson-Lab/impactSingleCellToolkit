@@ -4,6 +4,10 @@
 #' @param sample.col Metadata column name containing sample names within the input Seurat Object <default: 'sample'>
 #' @param threads  number of threads <default: 5>
 #' @return A Seurat object with a new column 'doublet_finder' which contains doublet annotations.
+#' @references 
+#' McGinnis CS, Murrow LM, Gartner ZJ (2019).
+#' DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors.
+#' \emph{Cell Systems} 8, 329–337.
 #' @examples seurat.obj <- findDoublets(seurat.obj, sample.col = "sample", threads = 10)
 #' @import Seurat
 #' @import DoubletFinder

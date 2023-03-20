@@ -22,3 +22,8 @@ Takes an input Seurat Object and annotates all doublets using the DoubletFinder 
 \examples{
 seurat.obj <- findDoublets(seurat.obj, sample.col = "sample", threads = 10)
 }
+\references{
+McGinnis CS, Murrow LM, Gartner ZJ (2019).
+DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors.
+\emph{Cell Systems} 8, 329–337.
+}

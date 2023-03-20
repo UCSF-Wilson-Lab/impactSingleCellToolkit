@@ -9,6 +9,10 @@
 #' @param normalize Bool of whether to normalize using the SCT transform <default: FALSE>
 #' @param dim.reduction Bool of whether to perform dimension reduction with PCA, tSNE and UMAP <default: FALSE>
 #' @return Seurat object generated from input sparse matrix.
+#' @references 
+#' Hao Y, Hao S, et al (2021). 
+#' Integrated analysis of multimodal single-cell data.
+#' \emph{Cell}. doi:10.1016/j.cell.2021.04.048 
 #' @examples seurat.obj <- createSeuratObjectFromMatrix(sc.data,project.name = "Analysis1",npca = 20, min.genes = 700)
 #' @import Seurat
 #' @import parallel

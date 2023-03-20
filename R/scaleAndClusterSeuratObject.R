@@ -8,6 +8,10 @@
 #' @param tsne Bool of whether to perform dimension reduction with tSNE <default: TRUE>
 #' @param umap Bool of whether to perform dimension reduction with UMAP <default: TRUE>
 #' @return A re-clustered Seurat object.
+#' @references 
+#' Hao Y, Hao S, et al (2021). 
+#' Integrated analysis of multimodal single-cell data.
+#' \emph{Cell}. doi:10.1016/j.cell.2021.04.048 
 #' @examples seurat.obj <- scaleAndClusterSeuratObject(seurat.obj,npca = 20,normalize = TRUE,dim.reduction = TRUE)
 #' @import Seurat
 #' @import parallel
