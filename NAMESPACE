@@ -2,5 +2,6 @@
 
 export(createSeuratObjectFromMatrix)
 export(generateCombinedMatrix)
+export(scaleAndClusterSeuratObject)
 import(Seurat)
 import(parallel)
