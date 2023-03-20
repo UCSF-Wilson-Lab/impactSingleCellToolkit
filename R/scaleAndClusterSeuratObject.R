@@ -18,7 +18,8 @@
 #' @export
 
 scaleAndClusterSeuratObject <- function(seurat_obj,dims = 1:30,npca = 10,
-                                        normalize = TRUE,dim.reduction = TRUE,tsne = TRUE, umap = TRUE) {
+                                        normalize = TRUE,dim.reduction = TRUE,tsne = TRUE, umap = TRUE) 
+{
   if(normalize){
     seurat_obj <- SCTransform(object = seurat_obj, verbose = FALSE, do.correct.umi = T, vars.to.regress = "nCount_RNA")
   }

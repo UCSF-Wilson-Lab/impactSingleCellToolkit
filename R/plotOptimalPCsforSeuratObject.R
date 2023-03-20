@@ -7,7 +7,8 @@
 #' @import Seurat
 #' @export
 
-plotOptimalPCsforSeuratObject <- function(seurat_obj) {
+plotOptimalPCsforSeuratObject <- function(seurat_obj) 
+{
   # Source: https://hbctraining.github.io/scRNA-seq/lessons/sc_exercises_clustering_analysis.html
   pct <- seurat_obj[["pca"]]@stdev / sum(seurat_obj[["pca"]]@stdev) * 100
   # Calculate cumulative percents for each PC

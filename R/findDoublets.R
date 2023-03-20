@@ -14,7 +14,10 @@
 #' @import parallel
 #' @export
 
-findDoublets <- function(seurat.obj,sample.col = "sample", threads = 5) {
+findDoublets <- function(seurat.obj,
+                         sample.col = "sample", 
+                         threads = 5) 
+{
   scobject.split <- SplitObject(seurat.obj, split.by = sample.col) 
   
   # Doublet finder column
@@ -100,7 +103,8 @@ findDoublets <- function(seurat.obj,sample.col = "sample", threads = 5) {
 #' @import Seurat
 #' @export
 
-get10xDoubletRate <- function(sample_cell_count) {
+get10xDoubletRate <- function(sample_cell_count) 
+{
   min.doublet.rate = 0.004
   max.doublet.rate = 0.080
   

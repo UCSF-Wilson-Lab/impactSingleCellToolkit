@@ -19,7 +19,8 @@
 #' @export
 
 generateCombinedMatrix <- function(dataset_loc, samples.vec, THREADS = 4, multi.results=T,assay = "gex",
-                                   min.genes.per.cell = 400,max.genes.per.cell = NULL) {
+                                   min.genes.per.cell = 400,max.genes.per.cell = NULL) 
+{
   # Access More clusters
   cl <- makeCluster(getOption("cl.cores", THREADS))
   clusterExport(cl,c('Read10X', "dataset_loc", "samples.vec"))
