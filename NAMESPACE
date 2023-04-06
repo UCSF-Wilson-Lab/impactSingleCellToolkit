@@ -3,8 +3,6 @@
 export(addSingleRcelltypeAnnotToSeuratObject)
 export(createSeuratObjectFromMatrix)
 export(findDoublets)
-export(formatVDJannotation)
-export(formatVDJfasta)
 export(generateCombinedMatrix)
 export(generateInputFilesImmcantation)
 export(get10xDoubletRate)
