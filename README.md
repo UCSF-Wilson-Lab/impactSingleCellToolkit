@@ -4,7 +4,7 @@ This R package is designed to make use of the ever expanding pool of single cell
 
 ## Installation
 
-Use [devtools](https://github.com/hadley/devtools "devtools") to install this package. You will need to first install the following dependencies:
+Use [devtools](https://github.com/hadley/devtools "devtools") to install this package. You will first need to install all dependencies.
 
 ```{r}
 install.packages("devtools")
@@ -24,4 +24,5 @@ This package requires pre-installation of the following R packages:
 * [DoubletFinder](https://github.com/chris-mcginnis-ucsf/DoubletFinder "DoubletFinder")
 * [SingleR](https://github.com/LTLA/SingleR "SingleR")
 * [celldex](http://bioconductor.org/packages/release/data/experiment/html/celldex.html "celldex")
+* [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html "Biostrings")
 

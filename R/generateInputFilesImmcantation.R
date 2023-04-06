@@ -45,16 +45,6 @@ generateInputFilesImmcantation <- function(vdj.results.dir,
 }
 
 
-#' @title Format VDJ annotation CSV
-#' @description Formats individual VDJ contig annotation CSV files to make it easier to combined them across all samples (BCR or TCR)
-#' @param sample sample name
-#' @param vdj.results.dir Directory containing VDJ results across all samples
-#' @param contig.annotation.file String of the file name of the contig annotation results files <default: 'filtered_contig_annotations.csv'>
-#' @param contig.id.col Column name within the contig annotations containing all contig IDs <default: 'contig_id'>
-#' @return A formatted dataframe of VDJ contig annotations.
-#' @examples sample_annot_df <- formatVDJannotation(sample,vdj.results.dir,contig.annotation.file,contig.id.col)
-#' @import Biostrings
-#' @export
 formatVDJannotation <- function(sample,vdj.results.dir,contig.annotation.file,contig.id.col) {
   annot_fh <- file.path(vdj.results.dir,sample,contig.annotation.file)
   annot_df <- read.csv(annot_fh,stringsAsFactors = F)
@@ -64,15 +54,6 @@ formatVDJannotation <- function(sample,vdj.results.dir,contig.annotation.file,co
 }
 
 
-#' @title Format VDJ FASTA
-#' @description Formats individual VDJ contig FASTA files to make it easier to combined them across all samples (BCR or TCR)
-#' @param sample sample name
-#' @param vdj.results.dir Directory containing VDJ results across all samples
-#' @param contig.fasta.file String of the file name of the contig FASTA files <default: 'filtered_contig.fasta'>
-#' @return A formatted FASTA DNAStringSet.
-#' @examples fasta_set <- formatVDJannotation(sample,vdj.results.dir,contig.fasta.file)
-#' @import Biostrings
-#' @export
 formatVDJfasta <- function(sample,vdj.results.dir,contig.fasta.file) {
   fasta_fh <- file.path(vdj.results.dir,sample,contig.fasta.file)
   fasta <- readDNAStringSet(fasta_fh)
