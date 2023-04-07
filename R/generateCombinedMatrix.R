@@ -15,6 +15,8 @@
 #' @examples input.matrix <- generateCombinedMatrix(dataset_loc, samples.vec,THREADS = 15, multi.results=T,
 #' assay = "gex",min.genes.per.cell = 700,max.genes.per.cell = 2500)
 #' @import Seurat
+#' @import Matrix
+#' @import data.table
 #' @import parallel
 #' @export
 
