@@ -11,6 +11,9 @@
 #' @examples seurat.obj <- findDoublets(seurat.obj, sample.col = "sample", threads = 10)
 #' @import Seurat
 #' @import DoubletFinder
+#' @import dotCall64
+#' @import spam
+#' @import fields
 #' @import parallel
 #' @export
 
