@@ -3,6 +3,7 @@
 #' @param seurat_obj Seurat Object
 #' @param dims Dimensions of reduction used as input <default: 1:30>
 #' @param npca  Maximum dimensions of reduction for tSNE if number of cells are too small <default: 10>
+#' @param resolution Resolution that determines cluster size as used in FindClusters <default: 0.8>
 #' @param normalize Bool of whether to normalize using the SCT transform <default: TRUE>
 #' @param dim.reduction Bool of whether to perform dimension reduction with PCA, tSNE and UMAP <default: TRUE>
 #' @param tsne Bool of whether to perform dimension reduction with tSNE <default: TRUE>
@@ -18,7 +19,9 @@
 #' @export
 
 scaleAndClusterSeuratObject <- function(seurat_obj,dims = 1:30,npca = 10,
-                                        normalize = TRUE,dim.reduction = TRUE,tsne = TRUE, umap = TRUE) 
+                                        resolution = 0.8,
+                                        normalize = TRUE,dim.reduction = TRUE,
+                                        tsne = TRUE, umap = TRUE) 
 {
   if(normalize){
     seurat_obj <- SCTransform(object = seurat_obj, verbose = FALSE, do.correct.umi = T, vars.to.regress = "nCount_RNA")
@@ -28,7 +31,7 @@ scaleAndClusterSeuratObject <- function(seurat_obj,dims = 1:30,npca = 10,
   if(dim.reduction){
     seurat_obj <- RunPCA(object = seurat_obj, verbose = FALSE)
     seurat_obj <- FindNeighbors(object = seurat_obj, dims = dims)
-    seurat_obj <- FindClusters(object = seurat_obj)
+    seurat_obj <- FindClusters(object = seurat_obj,resolution = resolution)
     
     if(tsne){
       if (ncol(seurat_obj@assays$RNA@data) < 100) {

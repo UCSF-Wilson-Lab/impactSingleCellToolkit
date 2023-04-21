@@ -8,6 +8,7 @@ scaleAndClusterSeuratObject(
   seurat_obj,
   dims = 1:30,
   npca = 10,
+  resolution = 0.8,
   normalize = TRUE,
   dim.reduction = TRUE,
   tsne = TRUE,
@@ -20,6 +21,8 @@ scaleAndClusterSeuratObject(
 \item{dims}{Dimensions of reduction used as input <default: 1:30>}
 
 \item{npca}{Maximum dimensions of reduction for tSNE if number of cells are too small <default: 10>}
+
+\item{resolution}{Resolution that determines cluster size as used in FindClusters <default: 0.8>}
 
 \item{normalize}{Bool of whether to normalize using the SCT transform <default: TRUE>}
 
