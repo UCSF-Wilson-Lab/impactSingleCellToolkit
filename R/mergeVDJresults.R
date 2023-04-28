@@ -46,14 +46,70 @@ mergeVDJresults <- function(df1,
   # merge 
   df <- rbind(df1,df2)
   
+  # QC filter to make sure there are only two chains per cell
+  df <- qcfilterVDJcontigs(df,unique.id.col = "unique_cell_id",locus.col = "locus",assay=assay)
+  
+  # adjust clonotype ID so it is uniform between chains
+  uni_cell_list <- as.list(unique(df$unique_cell_id))
+  
   return(df)
 }
 
 
-# Filter contigs for one cell
+# Get max contig - used in filterVDJcontigs.cell.2chains
+getMaxContig <- function(cell_df, chain) {
+  cell_df_sub <- cell_df[cell_df[,locus.col] %in% chain,]
+  max_umi_contig  <- cell_df_sub[cell_df_sub$umi_count == max(cell_df_sub$umi_count),]
+  max_umi_contig  <- max_umi_contig[max_umi_contig$consensus_count == max(max_umi_contig$consensus_count),]
+  max_umi_contig  <- max_umi_contig$sequence_id
+  # if UMI and reads counts are the same then arbitrality pick the first contig 
+  if(length(max_umi_contig) > 1){max_umi_contig <- max_umi_contig[1]}
+  
+  return(max_umi_contig)
+}
+
+
+# Filter contigs for one cell all chains
+filterVDJcontigs.cell.2chains <- function(cell,df,unique.id.col,locus.col,assay) {
+  cell_df <- df[df[,unique.id.col] %in% cell,]
+  chains  <- unique(cell_df[,locus.col])
+  
+  if(nrow(cell_df) > 1 && length(chains) > 1){
+    seq_ids_keep <- c()
+    
+    if(assay == "bcr"){
+      chain_heavy = "IGH"
+      chain_light = c("IGK","IGL")
+      heavy_contig <- getMaxContig(cell_df,chain = chain_heavy)
+      light_contig <- getMaxContig(cell_df,chain = chain_light)
+      
+      seq_ids_keep <- c(heavy_contig,light_contig)
+    }
+    
+    if(assay == "tcr"){
+      chain_beta = "TRB"
+      chain_alpha = c("TRA")
+      beta_contig <- getMaxContig(cell_df,chain = chain_beta)
+      alpha_contig <- getMaxContig(cell_df,chain = chain_alpha)
+      
+      seq_ids_keep <- c(beta_contig,alpha_contig)
+    }
+    
+    cell_df <- cell_df[cell_df$sequence_id %in% seq_ids_keep,]
+  }else{
+    cell_df <- NULL
+  }
+  
+  # return contigs to keep
+  
+  return(cell_df)
+}
+
+
+# Filter contigs for one cell one chain
 filterVDJcontigs.cell <- function(cell,df,unique.id.col) {
   cell_df <- df[df[,unique.id.col] %in% cell,]
-  
+
   if(nrow(cell_df) > 1){
     max_umi_contig  <- cell_df[cell_df$umi_count == max(cell_df$umi_count),]
     max_umi_contig  <- max_umi_contig[max_umi_contig$consensus_count == max(max_umi_contig$consensus_count),]
@@ -73,8 +129,30 @@ filterVDJcontigs <- function(df,unique.id.col = "unique_cell_id") {
   
   df_filt <- lapply(uni_id_list, filterVDJcontigs.cell,
                     df=df,unique.id.col=unique.id.col)
+  
   df_filt <- do.call("rbind",df_filt)
   
   return(df_filt)
 }
 
+
+# Filter contigs for immcatation results all chains (i.e. TCR alpha & beta chains)
+qcfilterVDJcontigs <- function(df,unique.id.col = "unique_cell_id",locus.col = "locus",assay = "bcr") {
+  uni_id_list <- as.list(unique(df[,unique.id.col]))
+  
+  df_filt <- lapply(uni_id_list, filterVDJcontigs.cell.2chains,
+                    df=df,unique.id.col=unique.id.col,locus.col=locus.col,assay=assay)
+  df_filt <- Filter(function(x) !is.null(x), df_filt)
+  
+  df_filt <- do.call("rbind",df_filt)
+  
+  return(df_filt)
+}
+
+# Format clonotype IDs so they are aligned across all cells
+#  - function supports BCR and TCR data
+#  - BCR - Heavy chain clonotype is mapped to light chains
+#  - TCR - Alpha and beta chain clone IDs are merged
+#formatCloneID <- function(df,assay = "bcr") {
+#  
+#}
