@@ -51,7 +51,7 @@ mergeVDJresults <- function(df1,
   
   # Adjust clonotype ID so it is uniform between chains (BCR or TCR)
   uni_cell_list <- as.list(unique(df$unique_cell_id))
-  df$clone_id   <- unlist(lapply(uni_id_list, formatCellCloneID,df=df,
+  df$clone_id   <- unlist(lapply(uni_cell_list, formatCellCloneID,df=df,
                                  assay=assay,
                                  unique.id.col = "unique_cell_id",
                                  locus.col = "locus",
