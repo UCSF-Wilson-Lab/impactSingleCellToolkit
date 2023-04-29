@@ -46,8 +46,26 @@ mergeVDJresults <- function(df1,
   # merge 
   df <- rbind(df1,df2)
   
+  # Sanity Check - number of chains
+  chain_df        <- as.data.frame(table(df$locus))
+  names(chain_df) <- c("chain","count")
+  
+  QC <- TRUE
+  if(assay == "bcr"){
+    heavy_count <- as.numeric(chain_df[chain_df$chain %in% "IGH","count"])
+    light_count <- sum(as.numeric(chain_df[chain_df$chain %in% c("IGK","IGL"),"count"]))
+    if(heavy_count == light_count){QC <- FALSE}
+  }
+  if(assay =="tcr"){
+    trb_count <- as.numeric(chain_df[chain_df$chain %in% "TRB","count"])
+    tra_count <- as.numeric(chain_df[chain_df$chain %in% "TRA","count"])
+    if(trb_count == tra_count){QC <- FALSE}
+  }
+  
   # QC filter to make sure there are only two chains per cell
-  df <- qcfilterVDJcontigs(df,unique.id.col = "unique_cell_id",locus.col = "locus",assay=assay)
+  if(QC){
+    df <- qcfilterVDJcontigs(df,unique.id.col = "unique_cell_id",locus.col = "locus",assay=assay)
+  }
   
   # Adjust clonotype ID so it is uniform between chains (BCR or TCR)
   uni_cell_list <- as.list(unique(df$unique_cell_id))
