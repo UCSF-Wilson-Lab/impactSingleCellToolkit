@@ -51,14 +51,18 @@ mergeVDJresults <- function(df1,
   
   # Adjust clonotype ID so it is uniform between chains (BCR or TCR)
   uni_cell_list <- as.list(unique(df$unique_cell_id))
-  df$clone_id   <- unlist(lapply(uni_id_list, formatCellCloneID,df=df,assay=assay))
+  df$clone_id   <- unlist(lapply(uni_id_list, formatCellCloneID,df=df,
+                                 assay=assay,
+                                 unique.id.col = "unique_cell_id",
+                                 locus.col = "locus",
+                                 clone.col = "clone_id"))
 
   return(df)
 }
 
 
 # Get max contig - used in filterVDJcontigs.cell.2chains
-getMaxContig <- function(cell_df, chain) {
+getMaxContig <- function(cell_df, chain,locus.col = "locus") {
   cell_df_sub <- cell_df[cell_df[,locus.col] %in% chain,]
   max_umi_contig  <- cell_df_sub[cell_df_sub$umi_count == max(cell_df_sub$umi_count),]
   max_umi_contig  <- max_umi_contig[max_umi_contig$consensus_count == max(max_umi_contig$consensus_count),]
@@ -81,8 +85,8 @@ filterVDJcontigs.cell.2chains <- function(cell,df,unique.id.col,locus.col,assay)
     if(assay == "bcr"){
       chain_heavy = "IGH"
       chain_light = c("IGK","IGL")
-      heavy_contig <- getMaxContig(cell_df,chain = chain_heavy)
-      light_contig <- getMaxContig(cell_df,chain = chain_light)
+      heavy_contig <- getMaxContig(cell_df,chain = chain_heavy,locus.col=locus.col)
+      light_contig <- getMaxContig(cell_df,chain = chain_light,locus.col=locus.col)
       
       seq_ids_keep <- c(heavy_contig,light_contig)
     }
@@ -90,8 +94,8 @@ filterVDJcontigs.cell.2chains <- function(cell,df,unique.id.col,locus.col,assay)
     if(assay == "tcr"){
       chain_beta  = "TRB"
       chain_alpha = "TRA"
-      beta_contig <- getMaxContig(cell_df,chain = chain_beta)
-      alpha_contig <- getMaxContig(cell_df,chain = chain_alpha)
+      beta_contig <- getMaxContig(cell_df,chain = chain_beta,locus.col=locus.col)
+      alpha_contig <- getMaxContig(cell_df,chain = chain_alpha,locus.col=locus.col)
       
       seq_ids_keep <- c(beta_contig,alpha_contig)
     }
