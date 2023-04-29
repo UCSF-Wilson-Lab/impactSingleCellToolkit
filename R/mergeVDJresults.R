@@ -49,9 +49,10 @@ mergeVDJresults <- function(df1,
   # QC filter to make sure there are only two chains per cell
   df <- qcfilterVDJcontigs(df,unique.id.col = "unique_cell_id",locus.col = "locus",assay=assay)
   
-  # adjust clonotype ID so it is uniform between chains
+  # Adjust clonotype ID so it is uniform between chains (BCR or TCR)
   uni_cell_list <- as.list(unique(df$unique_cell_id))
-  
+  df$clone_id   <- unlist(lapply(uni_id_list, formatCellCloneID,df=df,assay=assay))
+
   return(df)
 }
 
@@ -87,8 +88,8 @@ filterVDJcontigs.cell.2chains <- function(cell,df,unique.id.col,locus.col,assay)
     }
     
     if(assay == "tcr"){
-      chain_beta = "TRB"
-      chain_alpha = c("TRA")
+      chain_beta  = "TRB"
+      chain_alpha = "TRA"
       beta_contig <- getMaxContig(cell_df,chain = chain_beta)
       alpha_contig <- getMaxContig(cell_df,chain = chain_alpha)
       
@@ -153,6 +154,24 @@ qcfilterVDJcontigs <- function(df,unique.id.col = "unique_cell_id",locus.col = "
 #  - function supports BCR and TCR data
 #  - BCR - Heavy chain clonotype is mapped to light chains
 #  - TCR - Alpha and beta chain clone IDs are merged
-#formatCloneID <- function(df,assay = "bcr") {
-#  
-#}
+formatCellCloneID <- function(cell,df,assay = "bcr",
+                              unique.id.col = "unique_cell_id",
+                              locus.col = "locus",
+                              clone.col = "clone_id") {
+    cell_df <- df[df[,unique.id.col] %in% cell,]
+    cell_df <- cell_df[,c(unique.id.col,locus.col,clone.col)]
+    
+    if(assay == "bcr"){
+      clone_heavy         <- cell_df[cell_df[,locus.col] %in% "IGH",clone.col]
+      cell_df[,clone.col] <- clone_heavy
+    }
+    
+    if(assay == "tcr"){
+      clone_alpha <- cell_df[cell_df[,locus.col] %in% "TRA",clone.col]
+      clone_beta  <- cell_df[cell_df[,locus.col] %in% "TRB",clone.col]
+      clone_ab    <- paste(clone_alpha,clone_beta,sep = ":")
+      cell_df[,clone.col] <- clone_ab
+    }
+    
+    return(cell_df[,clone.col])
+}
