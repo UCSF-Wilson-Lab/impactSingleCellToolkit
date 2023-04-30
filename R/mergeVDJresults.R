@@ -69,13 +69,14 @@ mergeVDJresults <- function(df1,
   
   # Adjust clonotype ID so it is uniform between chains (BCR or TCR)
   uni_cell_list <- as.list(unique(df$unique_cell_id))
-  df$clone_id   <- unlist(lapply(uni_cell_list, formatCellCloneID,df=df,
+  df_list       <- lapply(uni_cell_list, formatCellCloneID,df=df,
                                  assay=assay,
                                  unique.id.col = "unique_cell_id",
                                  locus.col = "locus",
-                                 clone.col = "clone_id"))
+                                 clone.col = "clone_id")
+  df_fmt <- do.call("rbind",df_list)
 
-  return(df)
+  return(df_fmt)
 }
 
 
@@ -195,5 +196,5 @@ formatCellCloneID <- function(cell,df,assay = "bcr",
       cell_df[,clone.col] <- clone_ab
     }
     
-    return(cell_df[,clone.col])
+    return(cell_df)
 }
