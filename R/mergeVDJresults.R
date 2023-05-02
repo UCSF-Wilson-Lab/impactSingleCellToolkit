@@ -182,7 +182,6 @@ formatCellCloneID <- function(cell,df,assay = "bcr",
                               locus.col = "locus",
                               clone.col = "clone_id") {
     cell_df <- df[df[,unique.id.col] %in% cell,]
-    cell_df <- cell_df[,c(unique.id.col,locus.col,clone.col)]
     
     if(assay == "bcr"){
       clone_heavy         <- cell_df[cell_df[,locus.col] %in% "IGH",clone.col]
