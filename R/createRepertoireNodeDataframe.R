@@ -8,6 +8,7 @@
 #' @param cdr3.aa.col Column name which contains the AA sequences of the junction including the CDR3 region <default: 'junction_aa'>
 #' @param umi.count.col Column name which contains the UMI count per contig <default: 'umi_count'>
 #' @param read.count.col Column name which contains the read count per contig <default: 'consensus_count'>
+#' @param prefix.clone.id String prefix added to values in the clone ID column <default: 'clone'> 
 #' @param assay what assay type is being used among only two options (bcr,tcr) <default: 'bcr'>
 #' @param select.patients  A vector of select patient ID used to subset the input dataframe <default: NULL>
 #' @param expansion.thresh Minimum cell count threshold required for a clonotype to be defined as expanded <default: 2>
@@ -26,6 +27,7 @@ createRepertoireNodeDataframe <- function(imm_results,
                                           cdr3.aa.col = "junction_aa",
                                           umi.count.col = "umi_count",
                                           read.count.col = "consensus_count",
+                                          prefix.clone.id = "clone",
                                           assay = "bcr",
                                           select.patients = NULL,
                                           expansion.thresh = 2) {
@@ -51,7 +53,7 @@ createRepertoireNodeDataframe <- function(imm_results,
   clone_count_table$exp_status[clone_count_table$exp_status >= expansion.thresh] <- "Expanded"
   clone_count_table$exp_status[! clone_count_table$exp_status %in% "Expanded"] <- "Non_Expanded"
   
-  clone_count_table$clone_id_fmt <- paste("clone",clone_count_table[,clone.col],sep = "")
+  clone_count_table$clone_id_fmt <- paste(prefix.clone.id,clone_count_table[,clone.col],sep = "")
   
   ### 3. initialize Node df
   nseqs <- nrow(imm_results)
@@ -60,7 +62,7 @@ createRepertoireNodeDataframe <- function(imm_results,
   names(pt_nodes) <- c("id","clone_id","clone_type","clone_type_label","clone_size")
   pt_nodes$id <- imm_results[,seqid.col]
   pt_nodes$clone_id <- imm_results[,clone.col]
-  pt_nodes$clone_id <- paste("clone",pt_nodes$clone_id,sep = "")
+  pt_nodes$clone_id <- paste(prefix.clone.id,pt_nodes$clone_id,sep = "")
   
   
   ### 4. Add extra info to node df (expansion status, clone count, etc.)

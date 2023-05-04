@@ -13,6 +13,7 @@ createRepertoireNodeDataframe(
   cdr3.aa.col = "junction_aa",
   umi.count.col = "umi_count",
   read.count.col = "consensus_count",
+  prefix.clone.id = "clone",
   assay = "bcr",
   select.patients = NULL,
   expansion.thresh = 2
@@ -34,6 +35,8 @@ createRepertoireNodeDataframe(
 \item{umi.count.col}{Column name which contains the UMI count per contig <default: 'umi_count'>}
 
 \item{read.count.col}{Column name which contains the read count per contig <default: 'consensus_count'>}
+
+\item{prefix.clone.id}{String prefix added to values in the clone ID column <default: 'clone'>}
 
 \item{assay}{what assay type is being used among only two options (bcr,tcr) <default: 'bcr'>}
 
