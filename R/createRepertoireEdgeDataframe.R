@@ -19,9 +19,9 @@ createRepertoireEdgeDataframe <- function(node_df,
   
   # create clone count list
   clone_count_list <- list()
-  clone_count_vec <- unique(paste(node_df$clone_id,node_df$clone_size,sep = ":"))
+  clone_count_vec <- unique(paste(node_df$clone_id,node_df$clone_size,sep = ":sep:"))
   for (id_count in clone_count_vec) {
-    info_vec <- unlist(str_split(id_count,":"))
+    info_vec <- unlist(str_split(id_count,":sep:"))
     clone_count_list[[info_vec[1]]] <- as.numeric(info_vec[2])
   }
   
