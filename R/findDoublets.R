@@ -51,7 +51,7 @@ findDoublets <- function(seurat.obj,
     sc.sample <- FindClusters(object = sc.sample, resolution = 0.1)
     
     # pK identification (no ground-truth)
-    sweep.list <- paramSweep_v3(sc.sample, PCs = 1:min.pc,num.cores = threads,sct = F)
+    sweep.list <- paramSweep(sc.sample, PCs = 1:min.pc,num.cores = threads,sct = F)
     sweep.stats <- summarizeSweep(sweep.list,GT = F)
     bcmvn <- find.pK(sweep.stats)
     
@@ -71,7 +71,7 @@ findDoublets <- function(seurat.obj,
     nExp.poi.adj <- round(nExp.poi * (1 - homotypic.prop))
     
     # run DoubletFinder
-    sc.sample <- doubletFinder_v3(seu = sc.sample, 
+    sc.sample <- doubletFinder(seu = sc.sample, 
                                   PCs = 1:min.pc, 
                                   pK = optimal.pk,
                                   nExp = nExp.poi.adj)
