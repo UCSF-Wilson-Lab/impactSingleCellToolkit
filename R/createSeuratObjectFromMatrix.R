@@ -41,7 +41,7 @@ createSeuratObjectFromMatrix <-  function (sc.data, project.name,min.genes = 200
     sc <- RunPCA(object = sc, verbose = FALSE)
     sc <- FindNeighbors(object = sc, dims = dims)
     sc <- FindClusters(object = sc)
-    if (ncol(sc@assays$RNA@data) < 100) {
+    if (ncol(sc@assays$RNA$counts) < 100) {
       sc <- RunTSNE(sc, perplexity = 10, dims = 1:npca)
     }
     else {
