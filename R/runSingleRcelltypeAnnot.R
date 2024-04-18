@@ -19,8 +19,9 @@ runSingleRcelltypeAnnot <- function(seurat_obj,
                                     blueprintencode.annot = TRUE,
                                     monaco.annot = TRUE) 
 {
-  sc                  <- as.SingleCellExperiment(seurat_obj) # Supports seurat v3 assay class
-  results_list        <- list()
+  seurat_obj[["RNA3"]] <- as(object = seurat_obj[["RNA"]], Class = "Assay") # Convert to Seurat v3 assay class
+  sc                   <- as.SingleCellExperiment(seurat_obj)               # Supports Seurat v3 assay class over v5
+  results_list         <- list()
   
   if (blueprintencode.annot) {
     cat(paste0(">> Running SingleR: BlueprintENCODE\n\n"))
