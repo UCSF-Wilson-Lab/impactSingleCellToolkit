@@ -34,7 +34,7 @@ scaleAndClusterSeuratObject <- function(seurat_obj,dims = 1:30,npca = 10,
     seurat_obj <- FindClusters(object = seurat_obj,resolution = resolution)
     
     if(tsne){
-      if (ncol(seurat_obj@assays$RNA@data) < 100) {
+      if (ncol(seurat_obj@assays$RNA$counts) < 100) {
         seurat_obj <- RunTSNE(seurat_obj, perplexity = 10, dims = 1:npca)
       }
       else {
