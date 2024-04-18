@@ -23,6 +23,7 @@ createSeuratObjectFromMatrix <-  function (sc.data, project.name,min.genes = 200
 {
   mtgenes = "^mt-"
   ## Create Object
+  options(Seurat.object.assay.version = "v3")
   sc = CreateSeuratObject(sc.data, min.cells = min.cells, 
                           min.features = min.genes, project = project.name)
   ## Add % MT genes

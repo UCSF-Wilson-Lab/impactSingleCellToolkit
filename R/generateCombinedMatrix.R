@@ -28,6 +28,9 @@ generateCombinedMatrix <- function(dataset_loc, samples.vec, THREADS = 4, multi.
   clusterExport(cl,c('Read10X', "dataset_loc", "samples.vec"))
   start.time <- Sys.time()
   
+  # Force seurat v3 assay class
+  options(Seurat.object.assay.version = "v3")
+  
   # Load sample Matricies
   d10x.data <- sapply(samples.vec, function(i){
     data.dir <- file.path(dataset_loc,i,"/")
