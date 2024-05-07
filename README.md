@@ -26,3 +26,8 @@ This package requires pre-installation of the following R packages:
 * [celldex](http://bioconductor.org/packages/release/data/experiment/html/celldex.html "celldex")
 * [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html "Biostrings")
 
+For testing, install [SeuratData](https://github.com/satijalab/seurat-data "SeuratData") as well as the **pbmc3k** dataset.
+```{r}
+devtools::install_github('satijalab/seurat-data')
+InstallData("pbmc3k")
+```
