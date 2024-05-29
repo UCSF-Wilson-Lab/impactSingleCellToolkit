@@ -33,10 +33,20 @@ generateCombinedMatrix <- function(dataset_loc, samples.vec, THREADS = 4, multi.
     data.dir <- file.path(dataset_loc,i,"/")
     d10x <- Read10X(data.dir = data.dir)
     if(assay == "gex")
+      # If GEX and CSP were used
       if(multi.results == TRUE){d10x <- d10x$`Gene Expression`}
+      # Loads only GEX but still has a multi style output
+      if(length(names(d10x))==2 && "Gene Expression" %in% names(d10x)){
+        d10x <- d10x$`Gene Expression`
+      }
       colnames(d10x) <- paste(sapply(strsplit(colnames(d10x),split="-"),'[[',1L),i,sep="-")
     if(assay == "csp"){
+      # If GEX and CSP were used
       if(multi.results == TRUE){d10x <- d10x$`Antibody Capture`}
+      # Loads only CSP but still has a multi style output
+      if(length(names(d10x))==2 && "Antibody Capture" %in% names(d10x)){
+        d10x <- d10x$`Antibody Capture`
+      }
       colnames(d10x) <- paste(sapply(strsplit(colnames(d10x),split="-"),'[[',1L),i,sep="-")
     }
     d10x
